@@ -26,14 +26,75 @@
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; -webkit-tap-highlight-color: transparent; }
     body { background: var(--bg); color: var(--text); padding-bottom: 120px; overflow-x: hidden; }
 
-    /* Top Navigation */
-    .top-navbar { display: flex; justify-content: space-between; align-items: center; background: #000; padding: 12px 18px; position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid var(--border); }
-    .brand-group { display: flex; align-items: center; gap: 10px; }
-    .brand-icon-box { width: 34px; height: 34px; background: var(--primary); color: #000; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 17px; font-weight: 800; }
-    .brand-title-txt { font-size: 16px; font-weight: 800; color: #fff; letter-spacing: -0.3px; }
-    .header-actions { display: flex; gap: 8px; }
-    .btn-header { background: var(--surface); color: #e5e7eb; border: 1px solid rgba(255,255,255,0.12); padding: 7px 12px; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 6px; }
+        /* Top Navigation - 100% Mobile Responsive */
+    .top-navbar { 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+      background: #000; 
+      padding: 8px 10px; 
+      position: sticky; 
+      top: 0; 
+      z-index: 1000; 
+      border-bottom: 1px solid var(--border); 
+      gap: 6px;
+    }
+    .brand-group { 
+      display: flex; 
+      align-items: center; 
+      gap: 6px; 
+      flex-shrink: 0; 
+    }
+    .brand-icon-box { 
+      width: 28px; 
+      height: 28px; 
+      background: var(--primary); 
+      color: #000; 
+      border-radius: 7px; 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      font-size: 13px; 
+      font-weight: 800; 
+    }
+    .brand-title-txt { 
+      font-size: 13px; 
+      font-weight: 800; 
+      color: #fff; 
+      white-space: nowrap; 
+    }
+    .header-actions { 
+      display: flex; 
+      gap: 4px; 
+      overflow-x: auto; 
+      overflow-y: hidden; 
+      -webkit-overflow-scrolling: touch !important; 
+      touch-action: pan-x !important; 
+      scrollbar-width: none; 
+      flex-shrink: 1; 
+      justify-content: flex-end;
+    }
+    .header-actions::-webkit-scrollbar { display: none; }
+    .btn-header { 
+      background: var(--surface); 
+      color: #e5e7eb; 
+      border: 1px solid rgba(255,255,255,0.12); 
+      padding: 5px 7px; 
+      border-radius: 6px; 
+      font-size: 11px; 
+      font-weight: 700; 
+      cursor: pointer; 
+      display: inline-flex; 
+      align-items: center; 
+      gap: 4px; 
+      white-space: nowrap; 
+      flex-shrink: 0; 
+    }
     .btn-header.kitchen-btn { background: #b45309; border-color: #f59e0b; color: #fff; }
+
+    @media (max-width: 480px) {
+      .brand-title-txt { display: none; } /* মোবাইলে শুধু কাপ আইকন থাকবে, ফলে ৪টি বাটনই স্ক্রিনে সুন্দরভাবে এটে যাবে */
+    }
 
     /* Store Header */
     .hero-store-bar { background: linear-gradient(180deg, #1f1b18 0%, #121214 100%); padding: 16px; text-align: center; border-bottom: 1px solid var(--border); }
