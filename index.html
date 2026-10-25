@@ -561,54 +561,72 @@
 
   <script>
     /* 1. Complete Nature's Cafe Menu Data */
-    const NATURES_CAFE_MENU = [
-      // Fried
-      { id: 101, name: "Chicken Leg", subtitle: "Crispy fried leg", cat: "Fried", diet: "Non-Veg", half: 0, full: 75 },
-      { id: 102, name: "Chicken Chest", subtitle: "Fried breast fillet", cat: "Fried", diet: "Non-Veg", half: 0, full: 75 },
-      { id: 103, name: "Chicken Wings", subtitle: "Crispy crunchy wings", cat: "Fried", diet: "Non-Veg", half: 0, full: 45 },
-      { id: 104, name: "Chicken Pakora", subtitle: "Spicy cafe pakora", cat: "Fried", diet: "Non-Veg", half: 0, full: 30 },
-      { id: 105, name: "Chicken Popcorn", subtitle: "Bite sized chicken", cat: "Fried", diet: "Non-Veg", half: 70, full: 110 },
-      { id: 106, name: "Mayo Dips", subtitle: "Creamy dipping sauce", cat: "Fried", diet: "Veg", half: 10, full: 15 },
+    const menuItems = [
+  // --- FRIED ---
+  { id: 101, name: "Chicken Leg", category: "Fried", price: 80 },
+  { id: 102, name: "Chicken Chest", category: "Fried", price: 80 },
+  { id: 103, name: "Chicken Wings", category: "Fried", price: 50 },
+  { id: 104, name: "Chicken Pakora", category: "Fried", price: 30 },
+  { id: 105, name: "Chicken Popcorn (Full)", category: "Fried", price: 120 },
+  { id: 106, name: "Chicken Popcorn (Half)", category: "Fried", price: 80 },
+  { id: 107, name: "Mayo Dip (Small)", category: "Fried", price: 10 },
+  { id: 108, name: "Mayo Dip (Large)", category: "Fried", price: 15 },
 
-      // Burger
-      { id: 201, name: "Swezuan Chicken Burger", subtitle: "Fiery Schezwan kick", cat: "Burger", diet: "Non-Veg", half: 0, full: 89 },
-      { id: 202, name: "Tikha Tikha Chicken Burger", subtitle: "Extra spicy desi blend", cat: "Burger", diet: "Non-Veg", half: 0, full: 89 },
-      { id: 203, name: "Crunchy Chicken Burger", subtitle: "Classic crisp patty", cat: "Burger", diet: "Non-Veg", half: 0, full: 79 },
-      { id: 204, name: "Add Extra Cheese", subtitle: "Cheese slice addon", cat: "Burger", diet: "Veg", half: 0, full: 15 },
+  // --- BURGER ---
+  { id: 201, name: "Schezwan Chicken Burger", category: "Burger", price: 89 },
+  { id: 202, name: "Schezwan Burger (With Cheese)", category: "Burger", price: 100 },
+  { id: 203, name: "Teekha Teekha Chicken Burger", category: "Burger", price: 89 },
+  { id: 204, name: "Teekha Burger (With Cheese)", category: "Burger", price: 100 },
+  { id: 205, name: "Crunchy Chicken Burger", category: "Burger", price: 79 },
+  { id: 206, name: "Crunchy Burger (With Cheese)", category: "Burger", price: 94 },
 
-      // Non-Veg Pizza
-      { id: 301, name: "Swezuan Chicken Pizza", subtitle: "Spicy schezwan topping", cat: "Non-Veg Pizza", diet: "Non-Veg", half: 0, full: 159 },
-      { id: 302, name: "Butter Chicken Pizza", subtitle: "Rich makhani gravy topping", cat: "Non-Veg Pizza", diet: "Non-Veg", half: 0, full: 149 },
-      { id: 303, name: "Spicy Chicken Pizza", subtitle: "Hot chili & herbs", cat: "Non-Veg Pizza", diet: "Non-Veg", half: 0, full: 139 },
-      { id: 304, name: "Tikka Tikha Chicken Pizza", subtitle: "Smoky chicken tikka", cat: "Non-Veg Pizza", diet: "Non-Veg", half: 0, full: 139 },
-      { id: 305, name: "BBQ Chicken Pizza", subtitle: "Smoky barbeque flavor", cat: "Non-Veg Pizza", diet: "Non-Veg", half: 0, full: 139 },
-      { id: 306, name: "Fried Chicken Pizza", subtitle: "Crisp popcorn loaded", cat: "Non-Veg Pizza", diet: "Non-Veg", half: 0, full: 129 },
+  // --- NON-VEG PIZZA ---
+  { id: 301, name: "Schezwan Chicken Pizza (M)", category: "Non-Veg Pizza", price: 169 },
+  { id: 302, name: "Schezwan Chicken Pizza (L)", category: "Non-Veg Pizza", price: 279 },
+  { id: 303, name: "Butter Chicken Pizza (M)", category: "Non-Veg Pizza", price: 159 },
+  { id: 304, name: "Butter Chicken Pizza (L)", category: "Non-Veg Pizza", price: 269 },
+  { id: 305, name: "Spicy Chicken Pizza (M)", category: "Non-Veg Pizza", price: 149 },
+  { id: 306, name: "Spicy Chicken Pizza (L)", category: "Non-Veg Pizza", price: 259 },
+  { id: 307, name: "Teekha Teekha Chicken Pizza (M)", category: "Non-Veg Pizza", price: 149 },
+  { id: 308, name: "Teekha Teekha Chicken Pizza (L)", category: "Non-Veg Pizza", price: 259 },
+  { id: 309, name: "BBQ Chicken Pizza (M)", category: "Non-Veg Pizza", price: 149 },
+  { id: 310, name: "BBQ Chicken Pizza (L)", category: "Non-Veg Pizza", price: 259 },
+  { id: 311, name: "Fried Chicken Pizza (M)", category: "Non-Veg Pizza", price: 139 },
+  { id: 312, name: "Fried Chicken Pizza (L)", category: "Non-Veg Pizza", price: 249 },
+  { id: 313, name: "Extra Mozzarella Cheese (M)", category: "Non-Veg Pizza", price: 50 },
+  { id: 314, name: "Extra Mozzarella Cheese (L)", category: "Non-Veg Pizza", price: 70 },
 
-      // Veg Pizza
-      { id: 401, name: "Paneer Pizza", subtitle: "Marinated cottage cheese", cat: "Veg Pizza", diet: "Veg", half: 0, full: 129 },
-      { id: 402, name: "Mushroom Pizza", subtitle: "Fresh buttons & herbs", cat: "Veg Pizza", diet: "Veg", half: 0, full: 129 },
-      { id: 403, name: "Veg Pizza", subtitle: "Capsicum, onion & tomato", cat: "Veg Pizza", diet: "Veg", half: 0, full: 109 },
-      { id: 404, name: "Corn Cheese Pizza", subtitle: "Sweet corn loaded", cat: "Veg Pizza", diet: "Veg", half: 0, full: 99 },
-      { id: 405, name: "Add Extra Mozzarella Cheese", subtitle: "Double cheese layer", cat: "Veg Pizza", diet: "Veg", half: 0, full: 50 },
+  // --- VEG PIZZA ---
+  { id: 401, name: "Paneer Pizza", category: "Veg Pizza", price: 139 },
+  { id: 402, name: "Mushroom Pizza", category: "Veg Pizza", price: 139 },
+  { id: 403, name: "Classic Veg Pizza", category: "Veg Pizza", price: 119 },
+  { id: 404, name: "Corn Cheese Pizza", category: "Veg Pizza", price: 109 },
+  { id: 405, name: "Extra Mozzarella Cheese (Veg)", category: "Veg Pizza", price: 50 },
 
-      // Coffee
-      { id: 501, name: "Cold Coffee Extra Large", subtitle: "Extra chocolate & ice cream", cat: "Coffee", diet: "Veg", half: 0, full: 79 },
-      { id: 502, name: "Cold Coffee Regular", subtitle: "Classic thick brew", cat: "Coffee", diet: "Veg", half: 0, full: 59 },
-      { id: 503, name: "Hot Coffee", subtitle: "Fresh brewed espresso", cat: "Coffee", diet: "Veg", half: 25, full: 35 },
+  // --- COFFEE ---
+  { id: 501, name: "Cold Coffee Extra Large", category: "Coffee", price: 89 },
+  { id: 502, name: "Cold Coffee Regular", category: "Coffee", price: 69 },
+  { id: 503, name: "Hot Coffee (Large)", category: "Coffee", price: 40 },
+  { id: 504, name: "Hot Coffee (Small)", category: "Coffee", price: 30 },
 
-      // French Fries
-      { id: 601, name: "Peri Peri French Fries", subtitle: "Tossed in peri peri", cat: "French Fries", diet: "Veg", half: 0, full: 59 },
-      { id: 602, name: "Salted French Fries", subtitle: "Crispy golden salted", cat: "French Fries", diet: "Veg", half: 0, full: 59 },
+  // --- FRENCH FRIES ---
+  { id: 601, name: "Chicken Loaded Fries", category: "French Fries", price: 139 },
+  { id: 602, name: "Peri Peri French Fries", category: "French Fries", price: 79 },
+  { id: 603, name: "Salted French Fries", category: "French Fries", price: 69 },
 
-      // Momo
-      { id: 701, name: "Steamed Momo", subtitle: "Classic soft dumplings", cat: "Momo", diet: "Non-Veg", half: 0, full: 50 },
-      { id: 702, name: "Fried Momo", subtitle: "Crispy pan-fried", cat: "Momo", diet: "Non-Veg", half: 0, full: 60 },
-      { id: 703, name: "Swezuan Chicken Momo", subtitle: "Tossed in schezwan sauce", cat: "Momo", diet: "Non-Veg", half: 0, full: 80 },
+  // --- MOMO ---
+  { id: 701, name: "Fried Momo", category: "Momo", price: 60 },
+  { id: 702, name: "Schezwan Chicken Momo", category: "Momo", price: 80 },
 
-      // Corn
-      { id: 801, name: "Chicken Cheesy Butter Corn", subtitle: "Warm buttered sweet corn", cat: "Corn", diet: "Non-Veg", half: 0, full: 99 },
-      { id: 802, name: "Butter Corn", subtitle: "Classic salted butter corn", cat: "Corn", diet: "Veg", half: 0, full: 59 }
-    ];
+  // --- CORN ---
+  { id: 801, name: "Chicken Cheesy Masala Corn", category: "Corn", price: 110 },
+  { id: 802, name: "Butter Sweet Corn", category: "Corn", price: 69 },
+
+  // --- COLD BEVERAGES ---
+  { id: 901, name: "Masala Soda", category: "Cold Beverages", price: 35 },
+  { id: 902, name: "Sprite", category: "Cold Beverages", price: 30 },
+  { id: 903, name: "Coca-Cola", category: "Cold Beverages", price: 30 }
+];
 
     const POS_STORAGE_KEY = "NaturesCafe_POS_v1";
 
