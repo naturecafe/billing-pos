@@ -562,54 +562,61 @@
     /* 1. Complete Nature's Cafe Menu Data */
     const NATURES_CAFE_MENU = [
       // Fried
-      { id: 101, name: "Chicken Leg", subtitle: "Crispy fried leg", cat: "Fried", diet: "Non-Veg", half: 0, full: 75 },
-      { id: 102, name: "Chicken Chest", subtitle: "Fried breast fillet", cat: "Fried", diet: "Non-Veg", half: 0, full: 75 },
-      { id: 103, name: "Chicken Wings", subtitle: "Crispy crunchy wings", cat: "Fried", diet: "Non-Veg", half: 0, full: 45 },
+      { id: 101, name: "Chicken Leg", subtitle: "Crispy fried chicken leg", cat: "Fried", diet: "Non-Veg", half: 0, full: 80 },
+      { id: 102, name: "Chicken Chest", subtitle: "Crispy fried breast fillet", cat: "Fried", diet: "Non-Veg", half: 0, full: 80 },
+      { id: 103, name: "Chicken Wings", subtitle: "Crispy crunchy wings", cat: "Fried", diet: "Non-Veg", half: 0, full: 50 },
       { id: 104, name: "Chicken Pakora", subtitle: "Spicy cafe pakora", cat: "Fried", diet: "Non-Veg", half: 0, full: 30 },
-      { id: 105, name: "Chicken Popcorn", subtitle: "Bite sized chicken", cat: "Fried", diet: "Non-Veg", half: 70, full: 110 },
-      { id: 106, name: "Mayo Dips", subtitle: "Creamy dipping sauce", cat: "Fried", diet: "Veg", half: 10, full: 15 },
+      { id: 105, name: "Chicken Popcorn", subtitle: "Bite-sized crispy chicken popcorn", cat: "Fried", diet: "Non-Veg", half: 80, full: 120 },
+      { id: 106, name: "Add Mayo Dips", subtitle: "Creamy dipping sauce", cat: "Fried", diet: "Veg", half: 10, full: 15 },
 
       // Burger
-      { id: 201, name: "Swezuan Chicken Burger", subtitle: "Fiery Schezwan kick", cat: "Burger", diet: "Non-Veg", half: 0, full: 89 },
-      { id: 202, name: "Tikha Tikha Chicken Burger", subtitle: "Extra spicy desi blend", cat: "Burger", diet: "Non-Veg", half: 0, full: 89 },
-      { id: 203, name: "Crunchy Chicken Burger", subtitle: "Classic crisp patty", cat: "Burger", diet: "Non-Veg", half: 0, full: 79 },
-      { id: 204, name: "Add Extra Cheese", subtitle: "Cheese slice addon", cat: "Burger", diet: "Veg", half: 0, full: 15 },
+      { id: 201, name: "Schezwan Chicken Burger", subtitle: "Fiery Schezwan kick", cat: "Burger", diet: "Non-Veg", half: 89, full: 100 },
+      { id: 202, name: "Teekha Teekha Chicken Burger", subtitle: "Extra spicy desi blend", cat: "Burger", diet: "Non-Veg", half: 89, full: 100 },
+      { id: 203, name: "Crunchy Chicken Burger", subtitle: "Classic crisp patty", cat: "Burger", diet: "Non-Veg", half: 79, full: 94 },
 
       // Non-Veg Pizza
-      { id: 301, name: "Swezuan Chicken Pizza", subtitle: "Spicy schezwan topping", cat: "Non-Veg Pizza", diet: "Non-Veg", half: 0, full: 159 },
-      { id: 302, name: "Butter Chicken Pizza", subtitle: "Rich makhani gravy topping", cat: "Non-Veg Pizza", diet: "Non-Veg", half: 0, full: 149 },
-      { id: 303, name: "Spicy Chicken Pizza", subtitle: "Hot chili & herbs", cat: "Non-Veg Pizza", diet: "Non-Veg", half: 0, full: 139 },
-      { id: 304, name: "Tikka Tikha Chicken Pizza", subtitle: "Smoky chicken tikka", cat: "Non-Veg Pizza", diet: "Non-Veg", half: 0, full: 139 },
-      { id: 305, name: "BBQ Chicken Pizza", subtitle: "Smoky barbeque flavor", cat: "Non-Veg Pizza", diet: "Non-Veg", half: 0, full: 139 },
-      { id: 306, name: "Fried Chicken Pizza", subtitle: "Crisp popcorn loaded", cat: "Non-Veg Pizza", diet: "Non-Veg", half: 0, full: 129 },
+      { id: 301, name: "Schezwan Chicken Pizza", subtitle: "Spicy Schezwan topping", cat: "Non-Veg Pizza", diet: "Non-Veg", half: 169, full: 279 },
+      { id: 302, name: "Butter Chicken Pizza", subtitle: "Rich makhani gravy topping", cat: "Non-Veg Pizza", diet: "Non-Veg", half: 159, full: 269 },
+      { id: 303, name: "Spicy Chicken Pizza", subtitle: "Hot chili & herbs", cat: "Non-Veg Pizza", diet: "Non-Veg", half: 149, full: 259 },
+      { id: 304, name: "Teekha Teekha Chicken Pizza", subtitle: "Smoky chicken tikka", cat: "Non-Veg Pizza", diet: "Non-Veg", half: 149, full: 259 },
+      { id: 305, name: "BBQ Chicken Pizza", subtitle: "Smoky barbeque flavor", cat: "Non-Veg Pizza", diet: "Non-Veg", half: 149, full: 259 },
+      { id: 306, name: "Fried Chicken Pizza", subtitle: "Crisp popcorn loaded", cat: "Non-Veg Pizza", diet: "Non-Veg", half: 139, full: 249 },
+      { id: 307, name: "Add Extra Mozzarella (Non-Veg Pizza)", subtitle: "Double cheese layer", cat: "Non-Veg Pizza", diet: "Veg", half: 50, full: 70 },
 
       // Veg Pizza
-      { id: 401, name: "Paneer Pizza", subtitle: "Marinated cottage cheese", cat: "Veg Pizza", diet: "Veg", half: 0, full: 129 },
-      { id: 402, name: "Mushroom Pizza", subtitle: "Fresh buttons & herbs", cat: "Veg Pizza", diet: "Veg", half: 0, full: 129 },
-      { id: 403, name: "Veg Pizza", subtitle: "Capsicum, onion & tomato", cat: "Veg Pizza", diet: "Veg", half: 0, full: 109 },
-      { id: 404, name: "Corn Cheese Pizza", subtitle: "Sweet corn loaded", cat: "Veg Pizza", diet: "Veg", half: 0, full: 99 },
-      { id: 405, name: "Add Extra Mozzarella Cheese", subtitle: "Double cheese layer", cat: "Veg Pizza", diet: "Veg", half: 0, full: 50 },
+      { id: 401, name: "Paneer Pizza", subtitle: "Marinated cottage cheese", cat: "Veg Pizza", diet: "Veg", half: 0, full: 139 },
+      { id: 402, name: "Mushroom Pizza", subtitle: "Fresh buttons & herbs", cat: "Veg Pizza", diet: "Veg", half: 0, full: 139 },
+      { id: 403, name: "Classic Veg Pizza", subtitle: "Capsicum, onion & tomato", cat: "Veg Pizza", diet: "Veg", half: 0, full: 119 },
+      { id: 404, name: "Corn Cheese Pizza", subtitle: "Sweet corn loaded", cat: "Veg Pizza", diet: "Veg", half: 0, full: 109 },
+      { id: 405, name: "Add Extra Mozzarella (Veg Pizza)", subtitle: "Extra cheese layer", cat: "Veg Pizza", diet: "Veg", half: 0, full: 50 },
 
       // Coffee
-      { id: 501, name: "Cold Coffee Extra Large", subtitle: "Extra chocolate & ice cream", cat: "Coffee", diet: "Veg", half: 0, full: 79 },
-      { id: 502, name: "Cold Coffee Regular", subtitle: "Classic thick brew", cat: "Coffee", diet: "Veg", half: 0, full: 59 },
-      { id: 503, name: "Hot Coffee", subtitle: "Fresh brewed espresso", cat: "Coffee", diet: "Veg", half: 25, full: 35 },
+      { id: 501, name: "Cold Coffee Extra Large", subtitle: "Extra chocolate & ice cream", cat: "Coffee", diet: "Veg", half: 0, full: 89 },
+      { id: 502, name: "Cold Coffee Regular", subtitle: "Classic thick brew", cat: "Coffee", diet: "Veg", half: 0, full: 69 },
+      { id: 503, name: "Hot Coffee", subtitle: "Fresh brewed espresso", cat: "Coffee", diet: "Veg", half: 30, full: 40 },
 
       // French Fries
-      { id: 601, name: "Peri Peri French Fries", subtitle: "Tossed in peri peri", cat: "French Fries", diet: "Veg", half: 0, full: 59 },
-      { id: 602, name: "Salted French Fries", subtitle: "Crispy golden salted", cat: "French Fries", diet: "Veg", half: 0, full: 59 },
+      { id: 601, name: "Chicken Loaded Fries", subtitle: "Crispy fries with loaded chicken", cat: "French Fries", diet: "Non-Veg", half: 0, full: 139 },
+      { id: 602, name: "Peri Peri French Fries", subtitle: "Tossed in peri peri", cat: "French Fries", diet: "Veg", half: 0, full: 79 },
+      { id: 603, name: "Salted French Fries", subtitle: "Crispy golden salted", cat: "French Fries", diet: "Veg", half: 0, full: 69 },
 
       // Momo
-      { id: 701, name: "Steamed Momo", subtitle: "Classic soft dumplings", cat: "Momo", diet: "Non-Veg", half: 0, full: 50 },
-      { id: 702, name: "Fried Momo", subtitle: "Crispy pan-fried", cat: "Momo", diet: "Non-Veg", half: 0, full: 60 },
-      { id: 703, name: "Swezuan Chicken Momo", subtitle: "Tossed in schezwan sauce", cat: "Momo", diet: "Non-Veg", half: 0, full: 80 },
+      { id: 701, name: "Fried Momo", subtitle: "Crispy pan-fried dumplings", cat: "Momo", diet: "Non-Veg", half: 0, full: 60 },
+      { id: 702, name: "Schezwan Chicken Momo", subtitle: "Tossed in spicy Schezwan sauce", cat: "Momo", diet: "Non-Veg", half: 0, full: 80 },
 
       // Corn
-      { id: 801, name: "Chicken Cheesy Butter Corn", subtitle: "Warm buttered sweet corn", cat: "Corn", diet: "Non-Veg", half: 0, full: 99 },
-      { id: 802, name: "Butter Corn", subtitle: "Classic salted butter corn", cat: "Corn", diet: "Veg", half: 0, full: 59 }
+      { id: 801, name: "Chicken Cheesy Masala Corn", subtitle: "Juicy corn with chicken & cheese", cat: "Corn", diet: "Non-Veg", half: 0, full: 110 },
+      { id: 802, name: "Butter Sweet Corn", subtitle: "Classic butter sweet corn", cat: "Corn", diet: "Veg", half: 0, full: 69 },
+
+      // Cold Beverages
+      { id: 901, name: "Masala Soda", subtitle: "Refreshing spicy soda", cat: "Cold Beverages", diet: "Veg", half: 0, full: 35 },
+      { id: 902, name: "Sprite", subtitle: "Chilled lemon lime", cat: "Cold Beverages", diet: "Veg", half: 0, full: 30 },
+      { id: 903, name: "Coca-Cola", subtitle: "Classic chilled cola", cat: "Cold Beverages", diet: "Veg", half: 0, full: 30 }
     ];
 
-    const POS_STORAGE_KEY = "NaturesCafe_POS_v1";
+
+    const POS_STORAGE_KEY = "NaturesCafe_POS_v4";
+
 
     const INITIAL_DATA = {
       shop: {
