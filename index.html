@@ -545,7 +545,7 @@
           <input type="text" id="inpItemCategory" class="input-field" style="flex:1;" placeholder="Category (e.g. Burger, Pizza)" />
         </div>
       </div>
-            <div class="input-group">
+      <div class="input-group">
         <label>Portion Pricing (₹)</label>
         <div style="display:flex; gap:6px;">
           <input type="number" id="inpItemHalfPrice" class="input-field" placeholder="Half Price (0 if none)" />
@@ -553,9 +553,9 @@
         </div>
       </div>
 
-      <!-- Food Image Upload Option (Auto-compresses to 80-100 KB HD) -->
+      <!-- Food Image Upload Option -->
       <div class="input-group">
-        <label>Food Photo</label>
+        <label>Food Photo (Auto-compresses to 80-100 KB)</label>
         <div style="display:flex; align-items:center; gap:10px; margin-bottom:6px;">
           <div id="itemImgPreviewBox" style="width:56px; height:56px; border-radius:8px; border:1.5px dashed #cbd5e1; background:#f8fafc; display:flex; align-items:center; justify-content:center; overflow:hidden; flex-shrink:0;">
             <i class="fa-solid fa-image" style="color:#94a3b8; font-size:24px;" id="itemImgDefaultIcon"></i>
@@ -576,7 +576,6 @@
       </div>
 
       <div style="display:flex; gap:8px;">
-
         <button type="button" id="btnSaveMenuAction" onclick="saveNewCatalogItem()" style="flex:1; padding:10px; background:var(--primary); color:#000; border:none; border-radius:8px; font-weight:800; cursor:pointer;">Save Item to Menu</button>
         <button type="button" id="btnCancelEditMode" onclick="resetFoodInputForm()" style="display:none; padding:10px 14px; background:#475569; color:#fff; border:none; border-radius:8px; font-weight:700; cursor:pointer;">Cancel</button>
       </div>
@@ -764,13 +763,18 @@
     }
 
     function initApplication() {
-      renderStoreHeader();
-      renderTodayTopSellingBar();
-      renderCategoryAvatars();
-      renderMenuCatalog();
-      updateSalesMetricsBadge();
-      updateKitchenBadge();
-      buildTableButtons();
+      initImageDB().then(() => {
+        return getAllImagesFromDB();
+      }).then((imgMap) => {
+        loadedFoodImages = imgMap; // Load images into memory
+        renderStoreHeader();
+        renderTodayTopSellingBar();
+        renderCategoryAvatars();
+        renderMenuCatalog();
+        updateSalesMetricsBadge();
+        updateKitchenBadge();
+        buildTableButtons();
+      });
     }
 
     function renderStoreHeader() {
@@ -889,7 +893,10 @@
         return `
           <div class="menu-item-box">
             <div class="item-media-top">
-              <i class="fa-solid fa-bowl-food" style="font-size:42px; color:#374151;"></i>
+              ${loadedFoodImages[item.id] 
+                  ? `<img src="${loadedFoodImages[item.id]}" style="width:100%; height:100%; object-fit:cover;" />` 
+                  : `<i class="fa-solid fa-bowl-food" style="font-size:42px; color:#374151;"></i>`
+              }
               <div class="floating-badge diet-badge ${isNonVeg ? 'non-veg' : 'veg'}">
                 <i class="fa-solid fa-circle" style="font-size:8px;"></i> ${item.diet || 'Non-Veg'}
               </div>
@@ -1414,6 +1421,135 @@
       alert("✅ Settings saved!");
     }
 
+
+    // --- IndexedDB for storing unlimited HD food photos (80-100 KB) ---
+    const IDB_NAME = "NaturesCafe_ImageDB";
+    const IDB_STORE = "food_photos";
+    let idbInstance = null;
+    let loadedFoodImages = {}; // Global cache for fast rendering
+
+    function initImageDB() {
+      return new Promise((resolve) => {
+        if (!window.indexedDB) { resolve(null); return; }
+        const req = indexedDB.open(IDB_NAME, 1);
+        req.onupgradeneeded = function(e) {
+          const db = e.target.result;
+          if (!db.objectStoreNames.contains(IDB_STORE)) {
+            db.createObjectStore(IDB_STORE, { keyPath: "id" });
+          }
+        };
+        req.onsuccess = function(e) { idbInstance = e.target.result; resolve(idbInstance); };
+        req.onerror = function() { resolve(null); };
+      });
+    }
+
+    function saveImageToDB(id, base64) {
+      if (!idbInstance || !base64) return Promise.resolve();
+      return new Promise((resolve) => {
+        try {
+          const tx = idbInstance.transaction(IDB_STORE, "readwrite");
+          const store = tx.objectStore(IDB_STORE);
+          store.put({ id: String(id), data: base64 });
+          tx.oncomplete = () => resolve();
+          tx.onerror = () => resolve();
+        } catch (e) { resolve(); }
+      });
+    }
+
+    function getAllImagesFromDB() {
+      if (!idbInstance) return Promise.resolve({});
+      return new Promise((resolve) => {
+        try {
+          const tx = idbInstance.transaction(IDB_STORE, "readonly");
+          const store = tx.objectStore(IDB_STORE);
+          const req = store.getAll();
+          req.onsuccess = () => {
+            const map = {};
+            (req.result || []).forEach(r => { map[r.id] = r.data; });
+            resolve(map);
+          };
+          req.onerror = () => resolve({});
+        } catch (e) { resolve({}); }
+      });
+    }
+
+    function deleteImageFromDB(id) {
+      if (!idbInstance) return Promise.resolve();
+      return new Promise((resolve) => {
+        try {
+          const tx = idbInstance.transaction(IDB_STORE, "readwrite");
+          tx.objectStore(IDB_STORE).delete(String(id));
+          tx.oncomplete = () => resolve();
+          tx.onerror = () => resolve();
+        } catch (e) { resolve(); }
+      });
+    }
+
+    let currentItemPhotoBase64 = "";
+
+    function adaptiveCompressTo80_100KB(img) {
+      const targetMinBytes = 78 * 1024;  
+      const targetMaxBytes = 100 * 1024; 
+      let width = img.width; let height = img.height;
+      const MAX_W = 640; const MAX_H = 450;
+      if (width > height) { if (width > MAX_W) { height = Math.round(height * (MAX_W / width)); width = MAX_W; } } 
+      else { if (height > MAX_H) { width = Math.round(width * (MAX_H / height)); height = MAX_H; } }
+      const canvas = document.createElement("canvas"); canvas.width = width; canvas.height = height;
+      const ctx = canvas.getContext("2d");
+      ctx.imageSmoothingEnabled = true; ctx.imageSmoothingQuality = "high"; ctx.drawImage(img, 0, 0, width, height);
+      let minQ = 0.65; let maxQ = 0.96; let bestDataUrl = canvas.toDataURL("image/jpeg", 0.85);
+      for (let i = 0; i < 7; i++) {
+        let q = (minQ + maxQ) / 2; let dataUrl = canvas.toDataURL("image/jpeg", q);
+        let bytes = Math.round((dataUrl.length * 3) / 4);
+        bestDataUrl = dataUrl;
+        if (bytes > targetMaxBytes) maxQ = q; else if (bytes < targetMinBytes) minQ = q; else break;
+      }
+      return bestDataUrl;
+    }
+
+    function handleFoodPhotoUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const img = new Image();
+        img.onload = function() {
+          currentItemPhotoBase64 = adaptiveCompressTo80_100KB(img);
+          displayFoodPhotoPreview(currentItemPhotoBase64);
+          document.getElementById("inpItemPhotoUrl").value = "";
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function handlePhotoUrlInput(url) {
+      if (url.trim()) { currentItemPhotoBase64 = url.trim(); displayFoodPhotoPreview(currentItemPhotoBase64); }
+    }
+
+    function displayFoodPhotoPreview(src) {
+      const previewEl = document.getElementById("itemImgPreviewEl");
+      const defaultIcon = document.getElementById("itemImgDefaultIcon");
+      const btnRemove = document.getElementById("btnRemoveItemPhoto");
+      const sizeTag = document.getElementById("lblPhotoSizeInfo");
+      if (src) {
+        previewEl.src = src; previewEl.style.display = "block"; defaultIcon.style.display = "none";
+        btnRemove.style.display = "inline-block"; sizeTag.style.display = "block";
+        if (src.startsWith("data:image")) {
+          const approxKb = Math.round((src.length * 3 / 4) / 1024);
+          sizeTag.innerHTML = `✓ Photo Size: <b>${approxKb} KB</b> (Optimized)`; sizeTag.style.color = "#059669";
+        } else { sizeTag.textContent = "✓ Web Image Attached"; sizeTag.style.color = "#2563eb"; }
+      } else {
+        previewEl.src = ""; previewEl.style.display = "none"; defaultIcon.style.display = "block";
+        btnRemove.style.display = "none"; sizeTag.style.display = "none";
+      }
+    }
+
+    function removeFoodPhoto() {
+      currentItemPhotoBase64 = ""; document.getElementById("inpItemPhotoFile").value = "";
+      document.getElementById("inpItemPhotoUrl").value = ""; displayFoodPhotoPreview("");
+    }
+
     function openFoodManager() {
       resetFoodInputForm();
       renderCatalogEditor();
@@ -1446,6 +1582,14 @@
       document.getElementById("inpItemCategory").value = item.cat || "";
       document.getElementById("inpItemHalfPrice").value = item.half || 0;
       document.getElementById("inpItemFullPrice").value = item.full || 0;
+      
+      // Load existing image if available
+      if (loadedFoodImages[item.id]) {
+          currentItemPhotoBase64 = loadedFoodImages[item.id];
+          displayFoodPhotoPreview(currentItemPhotoBase64);
+      } else {
+          removeFoodPhoto();
+      }
 
       document.getElementById("btnSaveMenuAction").textContent = "Update Menu Item";
       document.getElementById("btnCancelEditMode").style.display = "inline-block";
@@ -1459,6 +1603,8 @@
       document.getElementById("inpItemCategory").value = "";
       document.getElementById("inpItemHalfPrice").value = "";
       document.getElementById("inpItemFullPrice").value = "";
+      
+      removeFoodPhoto(); // Clear image preview
 
       document.getElementById("btnSaveMenuAction").textContent = "Save Item to Menu";
       document.getElementById("btnCancelEditMode").style.display = "none";
@@ -1478,17 +1624,26 @@
         return;
       }
 
+      let finalId;
       if (editIdStr) {
         const editId = Number(editIdStr);
+        finalId = editId;
         const index = appState.menu.findIndex(m => m.id === editId);
         if (index !== -1) {
           appState.menu[index] = { id: editId, name, subtitle, cat, diet, half, full };
-          alert("✅ Item updated!");
         }
       } else {
-        const newItemId = Date.now();
-        appState.menu.push({ id: newItemId, name, subtitle, cat, diet, half, full });
-        alert("✅ Item added!");
+        finalId = Date.now();
+        appState.menu.push({ id: finalId, name, subtitle, cat, diet, half, full });
+      }
+
+      // Save Image to DB and memory
+      if (currentItemPhotoBase64) {
+        loadedFoodImages[finalId] = currentItemPhotoBase64;
+        saveImageToDB(finalId, currentItemPhotoBase64);
+      } else {
+        delete loadedFoodImages[finalId];
+        deleteImageFromDB(finalId);
       }
 
       saveAppState();
@@ -1496,6 +1651,7 @@
       renderMenuCatalog();
       renderCatalogEditor();
       resetFoodInputForm();
+      alert(editIdStr ? "✅ Item updated!" : "✅ Item added!");
     }
 
     function deleteMenuProduct(id) {
