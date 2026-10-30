@@ -1239,7 +1239,7 @@
       `).join('');
     }
 
-            function printReceiptDocket() {
+                function printReceiptDocket() {
       if (cartBasket.length > 0) {
         const { subtotal, discount, tax, grandTotal } = computeBillCalculations();
         const cashAmt = Number(document.getElementById("inpSplitCash").value) || 0;
@@ -1280,9 +1280,7 @@
       document.getElementById("kotBillArea").classList.remove("printable-active");
       document.getElementById("thermalBillArea").classList.add("printable-active");
       window.print();
-    }
-
-
+                }
 
     function printKotDocket() {
       if (!lastGeneratedSale && !cartBasket.length) {
