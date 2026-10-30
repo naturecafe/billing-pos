@@ -1239,20 +1239,20 @@
       `).join('');
     }
 
-        function printReceiptDocket() {
-      if (!lastGeneratedSale && !cartBasket.length) {
-        alert("No active bill found to print");
-        return;
-      }
-      if (!lastGeneratedSale && cartBasket.length) {
+            function printReceiptDocket() {
+      if (cartBasket.length > 0) {
         const { subtotal, discount, tax, grandTotal } = computeBillCalculations();
         const cashAmt = Number(document.getElementById("inpSplitCash").value) || 0;
         const onlineAmt = Number(document.getElementById("inpSplitOnline").value) || 0;
         
         let printMode = "CASH";
-        if (cashAmt > 0 && onlineAmt === 0) printMode = "CASH";
-        else if (onlineAmt > 0 && cashAmt === 0) printMode = "ONLINE";
-        else if (cashAmt > 0 && onlineAmt > 0) printMode = "SPLIT";
+        if (onlineAmt > 0 && cashAmt === 0) {
+          printMode = "ONLINE";
+        } else if (cashAmt > 0 && onlineAmt > 0) {
+          printMode = "SPLIT";
+        } else {
+          printMode = "CASH";
+        }
 
         const tempSale = {
           id: Date.now(),
@@ -1270,12 +1270,18 @@
           timestamp: new Date().toISOString()
         };
         buildReceiptDocket(tempSale);
+      } else if (lastGeneratedSale) {
+        buildReceiptDocket(lastGeneratedSale);
+      } else {
+        alert("No active bill found to print");
+        return;
       }
       
       document.getElementById("kotBillArea").classList.remove("printable-active");
       document.getElementById("thermalBillArea").classList.add("printable-active");
       window.print();
     }
+
 
 
     function printKotDocket() {
