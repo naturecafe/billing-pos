@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+।<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -426,11 +426,11 @@
         <div style="font-size:11px; color:#64748b;" id="lblUpiIdentifier">UPI: Not configured</div>
       </div>
 
-      <!-- Actions -->
+            <!-- Actions -->
       <div class="modal-grid-actions">
-        <button type="button" class="btn-pay-cash" onclick="commitSaleRecord('CASH')">💵 100% Cash</button>
-        <button type="button" class="btn-pay-online" onclick="commitSaleRecord('ONLINE')">📱 100% Online</button>
-        <button type="button" class="btn-pay-split" onclick="commitSaleRecord('SPLIT')">⚡ Confirm Split (Cash + Online)</button>
+        <button type="button" class="btn-pay-cash" onclick="document.getElementById('inpSplitCash').value=computeBillCalculations().grandTotal; document.getElementById('inpSplitOnline').value=0; onSplitAmountChanged();">💵 100% Cash</button>
+        <button type="button" class="btn-pay-online" onclick="document.getElementById('inpSplitCash').value=0; document.getElementById('inpSplitOnline').value=computeBillCalculations().grandTotal; onSplitAmountChanged();">📱 100% Online</button>
+        <button type="button" class="btn-pay-split" onclick="commitSaleRecord('SPLIT')">⚡ Save & Confirm</button>
         <button type="button" class="btn-action-print" onclick="printReceiptDocket()"><i class="fa-solid fa-print"></i> Print / Save as PDF</button>
         <button type="button" class="btn-action-kot" onclick="printKotDocket()"><i class="fa-solid fa-kitchen-set"></i> Print KOT Kitchen Slip</button>
       </div>
