@@ -1193,7 +1193,9 @@
       document.getElementById("prnStoreName").textContent = s.name || "NATURE'S CAFE";
       document.getElementById("prnStoreSubtitle").textContent = s.subtitle || "";
       document.getElementById("prnStorePhone").textContent = s.phone ? `Ph: ${s.phone}` : "";
-      document.getElementById("prnOrderTypeBadge").textContent = `[ ${sale.orderType || 'DINE-IN'} - ${sale.tableNum || 'Table 1'} ]`;
+            const badgeTxt = (sale.orderType === 'PARCEL') ? '[ PARCEL ]' : `[ ${sale.orderType || 'DINE-IN'} - ${sale.tableNum || 'Table 1'} ]`;
+      document.getElementById("prnOrderTypeBadge").textContent = badgeTxt;
+      
 
       let headerTitle = "CASH BILL";
       if (sale.mode === "ONLINE") headerTitle = "ONLINE BILL";
