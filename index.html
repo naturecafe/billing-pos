@@ -1180,7 +1180,14 @@
       const count = (appState.pendingKots || []).length;
       document.getElementById("lblPendingCount").textContent = count;
     }
-
+    function format12HourTime(d) {
+      let hours = d.getHours();
+      const minutes = String(d.getMinutes()).padStart(2, '0');
+      const ampm = hours >= 12 ? 'PM' : 'AM';
+      hours = hours % 12 || 12;
+      return `${String(hours).padStart(2, '0')}:${minutes} ${ampm}`;
+    }
+    
     function buildReceiptDocket(sale) {
       const s = appState.shop || {};
       document.getElementById("prnStoreName").textContent = s.name || "NATURE'S CAFE";
@@ -1194,7 +1201,8 @@
       document.getElementById("prnBillTitle").textContent = headerTitle;
 
       const d = new Date(sale.timestamp);
-      const formattedDate = `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
+      const formattedDate = `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()} ${format12HourTime(d)}`;
+
       document.getElementById("prnDateTime").textContent = formattedDate;
       document.getElementById("prnBillNumber").textContent = `Bill #: ${sale.billNo}`;
 
@@ -1229,8 +1237,8 @@
       document.getElementById("kotOrderTypeBadge").textContent = `[ ${sale.orderType || 'DINE-IN'} - ${sale.tableNum || 'Table 1'} ]`;
       document.getElementById("kotTokenNum").textContent = `TOKEN #: ${sale.billNo}`;
       const d = new Date(sale.timestamp);
-      document.getElementById("kotTime").textContent = `${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
-
+      document.getElementById("kotTime").textContent = format12HourTime(d);
+      
       document.getElementById("kotItemsContainer").innerHTML = sale.items.map(item => `
         <div class="th-row" style="font-size:13px; font-weight:700; margin:3px 0;">
           <span>${item.name} (${item.portion === 'half' ? 'HALF' : 'FULL'})</span>
